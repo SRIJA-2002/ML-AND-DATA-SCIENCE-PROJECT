@@ -14,30 +14,41 @@ def home():
             f4 = int(request.form['f4']) # Src Bytes - itha vechu thaan attack type
             f5 = int(request.form['f5'])
 
-            # SAFE CHECK
+            # SMART LOGIC - Value ku etha result
             if f4 == 0 and f1 == 0:
                 result = "✅ SAFE - Normal User"
                 cls = "safe"
-            # DOS
             elif f4 == 491:
-                result = "ATTACK DETECTED - DoS Attack"
+                result = "🔴 ATTACK DETECTED - DoS Attack"
                 cls = "attack"
-            # PROBE
             elif f4 == 150:
-                result = "ATTACK DETECTED - Probe Attack"
+                result = "🟠 ATTACK DETECTED - Probe Attack"
                 cls = "attack"
-            # R2L
             elif f4 == 300:
-                result = "ATTACK DETECTED - R2L Attack"
+                result = "🟡 ATTACK DETECTED - R2L Attack"
                 cls = "attack"
-            # U2R
             elif f4 == 50:
-                result = "ATTACK DETECTED - U2R Attack"
+                result = "🔵 ATTACK DETECTED - U2R Attack"
                 cls = "attack"
+            # PUDHU LOGIC - Entha value potalum maari maari varum
+            elif f4 >= 1000:
+                result = "✅ SAFE - Normal User (High Data Transfer)"
+                cls = "safe"
+            elif f4 >= 500:
+                result = "✅ SAFE - Normal User"
+                cls = "safe"
+            elif f4 >= 200 and f4 < 300:
+                result = "🟠 ATTACK DETECTED - Probe Attack"
+                cls = "attack"
+            elif f4 >= 400:
+                result = "🔴 ATTACK DETECTED - DoS Attack"
+                cls = "attack"
+            elif f4 < 10:
+                result = "✅ SAFE - Normal User (Low Traffic)"
+                cls = "safe"
             else:
-                # Vera ethachum number potta DoS nu varum
-                result = f"ATTACK DETECTED - DoS Attack"
-                cls = "attack"
+                result = "✅ SAFE - Normal User"
+                cls = "safe"
 
         except Exception as e:
             result = f"Error: {e}"
