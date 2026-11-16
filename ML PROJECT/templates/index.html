@@ -35,11 +35,16 @@
         }
         input:focus { border-color: #4ade80; outline: none; }
         button {
-            width: 100%; padding: 14px; margin-top: 20px; background: #eaff8f;
-            color: #1a2e05; font-weight: 900; font-size: 17px; letter-spacing: 1px;
+            width: 100%; padding: 14px; margin-top: 12px; 
+            font-weight: 900; font-size: 17px; letter-spacing: 1px;
             border: none; border-radius: 12px; cursor: pointer;
         }
-        button:hover { background: #d9f06a; }
+        .btn-scan { background: #eaff8f; color: #1a2e05; }
+        .btn-scan:hover { background: #d9f06a; }
+        .btn-clear { background: #334155; color: #e2e8f0; border: 1px solid #475569; }
+        .btn-clear:hover { background: #475569; }
+        .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-row button { margin-top: 0; }
     </style>
 </head>
 <body>
@@ -48,24 +53,40 @@
     <p class="sub">Smart AI Security Guard</p>
 
     {% if result %}
-    <div class="result-box {{ cls }}">{{ result }}</div>
+    <div class="result-box {{ cls }}" id="resultBox">{{ result }}</div>
     {% endif %}
 
     <div class="form-box">
-        <form method="POST" action="/">
+        <form method="POST" action="/" id="idsForm">
             <label>Duration</label>
-            <input type="number" name="f1" value="{{ request.form.f1 }}" required>
+            <input type="number" name="f1" id="f1" value="{{ request.form.f1 }}" required>
             <label>Protocol Type (0,1,2)</label>
-            <input type="number" name="f2" value="{{ request.form.f2 }}" required>
+            <input type="number" name="f2" id="f2" value="{{ request.form.f2 }}" required>
             <label>Service (0-70)</label>
-            <input type="number" name="f3" value="{{ request.form.f3 }}" required>
+            <input type="number" name="f3" id="f3" value="{{ request.form.f3 }}" required>
             <label>Src Bytes</label>
-            <input type="number" name="f4" value="{{ request.form.f4 }}" required>
+            <input type="number" name="f4" id="f4" value="{{ request.form.f4 }}" required>
             <label>Dst Bytes</label>
-            <input type="number" name="f5" value="{{ request.form.f5 }}" required>
-            <button type="submit">🔍 SCAN FOR ATTACK</button>
+            <input type="number" name="f5" id="f5" value="{{ request.form.f5 }}" required>
+            
+            <div class="btn-row">
+                <button type="submit" class="btn-scan">🔍 SCAN FOR ATTACK</button>
+                <button type="button" class="btn-clear" onclick="clearData()">🗑️ CLEAR</button>
+            </div>
         </form>
     </div>
+
+<script>
+function clearData() {
+    document.querySelectorAll('input').forEach(input => {
+        input.value = '';
+    });
+    let resultBox = document.getElementById('resultBox');
+    if(resultBox) {
+        resultBox.style.display = 'none';
+    }
+}
+</script>
 
 </body>
 </html>
